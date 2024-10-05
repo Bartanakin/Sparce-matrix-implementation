@@ -1,0 +1,10 @@
+.cmake
+.ninja_deps
+.ninja_log
+CMakeCache.txt
+CMakeFiles
+Testing
+data.txt
+cmake_install.cmake
+build.ninja
+*.exe
