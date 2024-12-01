@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include <iostream>
+#include <assert.h>
 #include <iomanip>
 #include "NumericTypeConcept.h"
 #include "Triplet.h"
@@ -11,7 +11,7 @@ namespace Barta {
     template<NumericType T>
     class DenseMatrix {
         using Values = std::vector<std::vector<T>>;
-        using Triplet = Triplet<T>;
+        using TripletType = Triplet<T>;
         using VectorType = std::vector<T>;
 
         unsigned int width;
@@ -33,7 +33,7 @@ namespace Barta {
         DenseMatrix(
             unsigned int width,
             unsigned int height,
-            std::vector<Triplet> triplets
+            std::vector<TripletType> triplets
         ) :
             DenseMatrix(
                 width,

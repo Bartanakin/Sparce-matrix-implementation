@@ -1,47 +1,67 @@
-
-
-#include "../SparseRowWiseMatrix.h"
 #include "../DenseMatrix.h"
+#include "../SparseRowWiseMatrix.h"
 
 int main() {
-    std::vector<Barta::Triplet<float>> triplets =
-        {
-            {0, 0, 1.f}, {0, 1, 7.f}, {0, 4, 3.f},
-            {1, 1, 1.f}, {1, 1, 1.f},
-            {2, 1, 3.f}, {2, 2, 6.f}, {2, 4, 1.f},
-            {3, 1, 5.f}, {3, 3, 4.f}, {3, 4, 10.f},
-            {4, 2, 1.f}
-        };
-    Barta::SparseRowWiseMatrix<float> A(
-        5,
-        5,
-        triplets
-    );
-    A.insert(4, 4, 8.f);
-    Barta::SparseRowWiseMatrix<float>::VectorType v = {1.f, -1.f, 0.f, 3.f, 1.f};
+    std::vector<Barta::Triplet<float>> tripletsA = {
+        {0, 0, 1.f },
+        {0, 1, 7.f },
+        {0, 4, 3.f },
+        {1, 1, 1.f },
+        {1, 1, 1.f },
+        {2, 1, 3.f },
+        {2, 2, 6.f },
+        {2, 4, 1.f },
+        {3, 1, 5.f },
+        {3, 3, 4.f },
+        {3, 4, 10.f},
+        {4, 2, 1.f },
+        {4, 4, 8.f },
+        {1, 5, 1.f },
+        {1, 6, 2.f },
+        {4, 6, -5.f },
+        {6, 6, -7.f },
+        {6, 1, -2.f },
+        {5, 2, 3.f },
+        {6, 4, 6.f },
+    };
+    Barta::SparseRowWiseMatrix A(7, 7, tripletsA);
 
-    Barta::DenseMatrix<float> B(
-        5,
-        5,
-        triplets
-    );
+    std::vector<Barta::Triplet<float>> tripletsB = {
+        {0, 1, 2.f },
+        {0, 2, 4.f },
+        {1, 0, 1.f },
+        {1, 1, 1.f },
+        {2, 0, 3.f },
+        {2, 4, 5.f },
+        {3, 0, -2.f },
+        {3, 2, -1.f },
+        {4, 2, 3.f },
+        {4, 3, 7.f },
+        {4, 5, -3.f },
+        {5, 0, 5.f },
+        {6, 1, 3.f },
+        {5, 4, 1.f },
+        {1, 6, -2.f },
+        {6, 6, 11.f },
+    };
+    Barta::SparseRowWiseMatrix B(7, 7, tripletsB);
 
     std::cout << "A: " << A.toString() << std::endl;
     std::cout << "B: " << B.toString() << std::endl;
 
-    auto w = A*v;
+    auto C = A.multiplyInner(B);
 
-    for (const auto x : w) {
-        std::cout << x << " ";
-    }
+    std::cout << "C: " << C.toString() << std::endl;
 
-    std::cout << std::endl;
+    auto C2 = A.multiplyInnerWithTransposition(B, 2);
 
-    auto w2 = B*v;
+    std::cout << "C2: " << C2.toString() << std::endl;
 
-    for (const auto x : w2) {
-        std::cout << x << " ";
-    }
+    auto D = A.multiplyRowWise(B, 4, 2);
+
+    std::cout << "D: " << D.toString() << std::endl;
+
+    assert(C == D);
 
     std::cout << std::endl;
 

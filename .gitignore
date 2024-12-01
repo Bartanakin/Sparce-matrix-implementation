@@ -8,3 +8,5 @@ data.txt
 cmake_install.cmake
 build.ninja
 *.exe
+.idea
+cmake-build-debug
